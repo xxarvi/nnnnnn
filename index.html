@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>z  | portfolio </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000;
+            min-height: 100vh;
+            color: #f1f5f9;
+            padding: 2rem;
+            overflow-x: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+        
+        /* Improved checkered background */
+        .glitch {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(40, 40, 40, 0.98) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(40, 40, 40, 0.98) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -2;
+            animation: glitch 10s infinite;
+        }
+        
+        .glitch::before, .glitch::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            opacity: 0.8;
+            z-index: -1;
+        }
+        
+        .glitch::before {
+            animation: glitchBefore 8s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        }
+        
+        .glitch::after {
+            animation: glitchAfter 6s infinite;
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+        }
+        
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); }
+            40% { transform: translate(-5px, -5px); }
+            60% { transform: translate(5px, 5px); }
+            80% { transform: translate(5px, -5px); }
+            100% { transform: translate(0); }
+        }
+        
+        @keyframes glitchBefore {
+            0% { transform: translateX(0); opacity: 0.3; }
+            33% { transform: translateX(-8px); opacity: 0.5; }
+            66% { transform: translateX(8px); opacity: 0.5; }
+            100% { transform: translateX(0); opacity: 0.3; }
+        }
+        
+        @keyframes glitchAfter {
+            0% { transform: translateX(0); opacity: 0.3; }
+            33% { transform: translateX(8px); opacity: 0.5; }
+            66% { transform: translateX(-8px); opacity: 0.5; }
+            100% { transform: translateX(0); opacity: 0.3; }
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Card styling */
+        .card {
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(60, 60, 60, 0.5);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid transparent;
+            border-radius: 16px;
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+        }
+        
+        .card:hover::before {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+        }
+        
+        .avatar {
+            background: linear-gradient(135deg, #0ea5e9, #7dd3fc);
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .social-link {
+            background: rgba(14, 165, 233, 0.15);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .social-link:hover {
+            background: rgba(14, 165, 233, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+        }
+        
+        /* Flip card for Spotify */
+        .flip-card {
+            perspective: 1000px;
+            height: 280px;
+        }
+        
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .flip-card-front {
+            background: linear-gradient(135deg, #299baf, #0a0a0a);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .flip-card-back {
+            background: linear-gradient(135deg, #0a0a0a, #299baf);
+            transform: rotateY(180deg);
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        /* Projects section */
+        .projects-container {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .projects-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .projects-container::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.1);
+            border-radius: 10px;
+        }
+        
+        .projects-container::-webkit-scrollbar-thumb {
+            background: #0ea5e9;
+            border-radius: 10px;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+        }
+        
+        .tag {
+            background: rgba(14, 165, 233, 0.15);
+            transition: all 0.2s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .tag:hover {
+            background: rgba(14, 165, 233, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        /* Timeline */
+        .timeline-section {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid rgba(60, 60, 60, 0.5);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            backdrop-filter: blur(20px);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: -8px;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #0ea5e9;
+            border: 3px solid #0f172a;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(30, 30, 30, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .close-btn:hover {
+            background: rgba(239, 68, 68, 0.7);
+            transform: rotate(90deg);
+        }
+        
+        /* Spotify player styling */
+        .spotify-player {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        /* Glowing text effect */
+        .glow-text {
+            text-shadow: 0 0 10px rgba(14, 165, 233, 0.7);
+        }
+        
+        /* Section headings */
+        .section-heading {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #0ea5e9, transparent);
+            border-radius: 3px;
+        }
+        
+        /* Neon border effect on hover */
+        .neon-hover:hover {
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.7), inset 0 0 10px rgba(14, 165, 233, 0.3);
+        }
+        
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(90deg, #0ea5e9, #7dd3fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Enhanced gradient text */
+        .gradient-text-enhanced {
+            background: linear-gradient(90deg, #0c4a6e, #0369a1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Sticky note */
+        .sticky-note {
+            background: linear-gradient(135deg, #fffd88, #fff9c4);
+            color: #333;
+            font-family: 'Kalam', cursive;
+            transform: rotate(2deg);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .sticky-note::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 235, 59, 0.7);
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
+            transform: rotate(135deg);
+        }
+        
+        /* Expandable sections */
+        .expandable {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .expandable:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* Achievements section */
+        .achievement-badge {
+            background: linear-gradient(135deg, #0ea5e9, #1d4ed8);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Achievement box styling */
+        .achievement-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .achievement-box {
+            background: rgba(14, 165, 233, 0.15);
+            border-radius: 12px;
+            padding: 15px;
+            flex: 1 0 calc(50% - 10px);
+            min-width: 120px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .achievement-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        .achievement-box:hover::after {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.3);
+        }
+        
+        .achievement-box .badge {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #0ea5e9;
+        }
+        
+        .achievement-box .details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+        
+        .achievement-box.expanded .details {
+            max-height: 100px;
+            margin-top: 8px;
+        }
+        
+        .achievement-box.expanded {
+            flex: 1 0 100%;
+            background: rgba(14, 165, 233, 0.2);
+        }
+        
+        /* New timeline styling */
+        .expandable {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .expandable:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* Compact Timeline */
+        .timeline-compact {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .timeline-period {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .timeline-badge {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(14, 165, 233, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .timeline-content {
+            flex-grow: 1;
+        }
+        
+        .timeline-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #7dd3fc;
+        }
+        
+        .timeline-content p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+        
+        .timeline-expand {
+            text-align: center;
+            margin-top: 15px;
+            color: #0ea5e9;
+            font-size: 0.9rem;
+        }
+        
+         /* Timeline modal styling */
+        .timeline-modal-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-modal-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #0ea5e9;
+            border: 3px solid #0f172a;
+        }
+        
+        .timeline-modal-item::after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 25px;
+            width: 2px;
+            height: calc(100% + 15px);
+            background: #0ea5e9;
+        }
+        
+        .timeline-modal-item:last-child::after {
+            display: none;
+        }
+        
+        .timeline-modal-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #7dd3fc;
+        }
+        
+        .timeline-modal-content {
+            padding-left: 20px;
+        }
+        
+        .timeline-modal-content ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        
+        .timeline-modal-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        /* Hobbies section */
+        .hobby-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 12px;
+            background: rgba(14, 165, 233, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .hobby-item:hover {
+            background: rgba(14, 165, 233, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .hobby-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(14, 165, 233, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        /* Profile image styling */
+        .profile-img {
+            border-radius: 50%;
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+        }
+        
+        /* Discord tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 140px;
+            background-color: #0f172a;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -70px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid #0ea5e9;
+            font-size: 0.8rem;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Average Day section */
+        .average-day-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .average-day-item {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .average-day-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .average-day-item.active {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+        }
+        
+        /* Additional Info Cards */
+        .info-card {
+            transition: all 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Horizontal alignment for info cards */
+        .horizontal-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .horizontal-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .average-day-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .average-day-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Gallery caption */
+        .gallery-caption {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #0ea5e9;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-caption-text {
+            color: #7dd3fc;
+            font-size: 0.9rem;
+        }
+        
+        /* Anime Section Styles */
+        .anime-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 12px;
+            background: rgba(14, 165, 233, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .anime-item:hover {
+            background: rgba(14, 165, 233, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .anime-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(14, 165, 233, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        /* Enhanced Loading Screen Styles - UPDATED */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000; /* Black background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: transform 1.5s ease, opacity 1s ease;
+        }
+        
+        .loading-screen.fade-out {
+            opacity: 0;
+            transform: scale(1.5);
+            pointer-events: none;
+        }
+        
+        .z-animation {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+        
+        .z-arrow {
+            stroke: #ffffff; /* White color */
+            stroke-width: 8;
+            stroke-linecap: round;
+            fill: none;
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200;
+            animation: drawArrow 1.5s ease-in-out forwards;
+        }
+        
+        .z-path {
+            stroke: #ffffff; /* White color */
+            stroke-width: 8;
+            stroke-linecap: round;
+            fill: none;
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: drawZ 1.5s ease-in-out 1.5s forwards;
+        }
+        
+        @keyframes drawArrow {
+            0% {
+                stroke-dashoffset: 200;
+            }
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        @keyframes drawZ {
+            0% {
+                stroke-dashoffset: 600;
+            }
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        .z-glitch {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 180px;
+            font-weight: 900;
+            color: #ffffff; /* White color */
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-family: 'Space Grotesk', sans-serif;
+            opacity: 0;
+            animation: glitchAppear 0.3s ease-in-out 3s forwards, glitchEffect 0.5s infinite linear alternate-reverse 3.3s;
+        }
+        
+        .z-glitch::before,
+        .z-glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .z-glitch::before {
+            left: 4px;
+            text-shadow: -3px 0 #ffffff; /* White instead of cyan */
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+        
+        .z-glitch::after {
+            left: -4px;
+            text-shadow: -3px 0 #f0f0f0; /* Light gray instead of magenta */
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitchAppear {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        
+        @keyframes glitchEffect {
+            0% {
+                transform: translate(-50%, -50%) translate(0);
+            }
+            20% {
+                transform: translate(-50%, -50%) translate(-5px, 5px);
+            }
+            40% {
+                transform: translate(-50%, -50%) translate(-5px, -5px);
+            }
+            60% {
+                transform: translate(-50%, -50%) translate(5px, 5px);
+            }
+            80% {
+                transform: translate(-50%, -50%) translate(5px, -5px);
+            }
+            100% {
+                transform: translate(-50%, -50%) translate(0);
+            }
+        }
+        
+        @keyframes glitch-anim-1 {
+            0% { clip: rect(42px, 9999px, 44px, 0); }
+            5% { clip: rect(12px, 9999px, 59px, 0); }
+            10% { clip: rect(48px, 9999px, 29px, 0); }
+            15% { clip: rect(42px, 9999px, 73px, 0); }
+            20% { clip: rect(63px, 9999px, 27px, 0); }
+            25% { clip: rect(34px, 9999px, 55px, 0); }
+            30% { clip: rect(86px, 9999px, 73px, 0); }
+            35% { clip: rect(20px, 9999px, 20px, 0); }
+            40% { clip: rect(26px, 9999px, 60px, 0); }
+            45% { clip: rect(25px, 9999px, 66px, 0); }
+            50% { clip: rect(57px, 9999px, 98px, 0); }
+            55% { clip: rect(5px, 9999px, 46px, 0); }
+            60% { clip: rect(82px, 9999px, 31px, 0); }
+            65% { clip: rect(54px, 9999px, 27px, 0); }
+            70% { clip: rect(28px, 9999px, 99px, 0); }
+            75% { clip: rect(45px, 9999px, 69px, 0); }
+            80% { clip: rect(23px, 9999px, 85px, 0); }
+            85% { clip: rect(54px, 9999px, 84px, 0); }
+            90% { clip: rect(45px, 9999px, 47px, 0); }
+            95% { clip: rect(37px, 9999px, 20px, 0); }
+            100% { clip: rect(4px, 9999px, 91px, 0); }
+        }
+        
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(65px, 9999px, 100px, 0); }
+            5% { clip: rect(52px, 9999px, 74px, 0); }
+            10% { clip: rect(79px, 9999px, 85px, 0); }
+            15% { clip: rect(75px, 9999px, 5px, 0); }
+            20% { clip: rect(67px, 9999px, 61px, 0); }
+            25% { clip: rect(14px, 9999px, 79px, 0); }
+            30% { clip: rect(1px, 9999px, 66px, 0); }
+            35% { clip: rect(86px, 9999px, 30px, 0); }
+            40% { clip: rect(23px, 9999px, 98px, 0); }
+            45% { clip: rect(85px, 9999px, 72px, 0); }
+            50% { clip: rect(71px, 9999px, 75px, 0); }
+            55% { clip: rect(2px, 9999px, 48px, 0); }
+            60% { clip: rect(30px, 9999px, 16px, 0); }
+            65% { clip: rect(59px, 9999px, 50px, 0); }
+            70% { clip: rect(41px, 9999px, 62px, 0); }
+            75% { clip: rect(2px, 9999px, 82px, 0); }
+            80% { clip: rect(47px, 9999px, 73px, 0); }
+            85% { clip: rect(3px, 9999px, 27px, 0); }
+            90% { clip: rect(26px, 9999px, 55px, 0); }
+            95% { clip: rect(42px, 9999px, 97px, 0); }
+            100% { clip: rect(38px, 9999px, 49px, 0); }
+        }
+        
+        /* Gallery image styles */
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .average-day-item:hover .gallery-image {
+            transform: scale(1.1);
+        }
+        
+        /* Fix for profile image */
+        .profile-img {
+            border-radius: 50%;
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="z-animation">
+            <svg viewBox="0 0 200 200" class="z-animation">
+                <!-- Arrow that transforms into Z -->
+                <path class="z-arrow" d="M40,40 L160,40 L160,80 L80,80 L80,160 L160,160" />
+                <path class="z-path" d="M40,40 L160,40 L40,160 L160,160" />
+            </svg>
+            <div class="z-glitch" data-text="Z">Z</div>
+        </div>
+    </div>
+    
+    <!-- Glitch background -->
+    <div class="glitch"></div>
+    
+    <div class="container">
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left Column -->
+            <div class="lg:col-span-3 space-y-8">
+                <!-- Spotify Player -->
+                <div class="flip-card card h-80">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fab fa-spotify text-5xl mb-4"></i>
+                            <h3 class="text-2xl font-bold mb-2">What I'm Listening To</h3>
+                            <p class="text-slate-300 mb-6">Hover to see my playlist</p>
+                            <div class="floating">
+                                <i class="fas fa-music text-3xl"></i>
+                            </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 class="text-xl font-bold mb-4 text-center">My Favorite Tracks</h3>
+                            <div class="space-y-2">
+                                <!-- Hold On -->
+                                <div class="spotify-player">
+                                    <iframe src="https://open.spotify.com/embed/track/1nahzW3kfMuwReTka28tH5?utm_source=generator" 
+                                            width="100%" 
+                                            height="80" 
+                                            frameBorder="0" 
+                                            allowfullscreen="" 
+                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                            loading="lazy"></iframe>
+                                </div>
+                                <!-- Second Song -->
+                                <div class="spotify-player">
+                                    <iframe src="https://open.spotify.com/embed/track/4zRZAmBQP8vhNPf9i9opXt?utm_source=generator" 
+                                            width="100%" 
+                                            height="80" 
+                                            frameBorder="0" 
+                                            allowfullscreen="" 
+                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                            loading="lazy"></iframe>
+                                </div>
+                                <!-- Third Song -->
+                                <div class="spotify-player">
+                                    <iframe src="https://open.spotify.com/embed/track/2AX5E86cn9n2dgioZEjirI?utm_source=generator" 
+                                            width="100%" 
+                                            height="80" 
+                                            frameBorder="0" 
+                                            allowfullscreen="" 
+                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                            loading="lazy"></iframe>
+                                </div>
+                                <!-- Fourth Song -->
+                                <div class="spotify-player">
+                                    <iframe src="https://open.spotify.com/embed/track/4rHZZAmHpZrA3iH5zx8frV?utm_source=generator" 
+                                            width="100%" 
+                                            height="80" 
+                                            frameBorder="0" 
+                                            allowfullscreen="" 
+                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                            loading="lazy"></iframe>
+                                </div>
+                                <!-- Fifth Song -->
+                                <div class="spotify-player">
+                                    <iframe src="https://open.spotify.com/embed/track/14mT8BCOXiUUcGlb7KujkT?utm_source=generator" 
+                                            width="100%" 
+                                            height="80" 
+                                            frameBorder="0" 
+                                            allowfullscreen="" 
+                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                            loading="lazy"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timeline Section -->
+                <div class="timeline-section card rounded-2xl p-6 expandable" id="timelineTrigger">
+                    <h2 class="text-2xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-history mr-3 text-sky-400"></i> Timeline
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="timeline-item">
+                            <div class="text-lg text-sky-400 font-bold">2022 – 2024</div>
+                            <ul class="list-disc ml-6 space-y-2 text-slate-300">
+                                <li>Started journey with Technovation, participating for three consecutive years</li>
+                                <li>Invited to Adobe HQ for the Technovation Celebration</li>
+                                <li>Represented at IIT Delhi for a Technovation Hackathon</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="text-lg text-sky-400 font-bold">2024 – 2025</div>
+                            <ul class="list-disc ml-6 space-y-2 text-slate-300">
+                                <li>Participated in multiple interschool competitions</li>
+                                <li>Apeejay - 2nd Place</li>
+                                <li>VBPS - 3rd Place</li>
+                                <li>Cambridge - 2nd Place</li>
+                                <li>Genesis - 2nd Place</li>
+                                <li>Became an active member of school's Tech Club</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="text-lg text-sky-400 font-bold">2025</div>
+                            <ul class="list-disc ml-6 space-y-2 text-slate-300">
+                                <li>Built and launched multiple projects</li>
+                                <li>ChefGPT - AI-powered cooking assistant</li>
+                                <li>Portfolioo - Mystical animated portfolio</li>
+                                <li>Cyber-Sec - Cybersecurity quiz</li>
+                                <li>LearnAble-AI - Simplifying AI concepts</li>
+                                <li>Greening Your Home - Sustainability site</li>
+                                <li>To-Do List - Productivity tool</li>
+                                <li>DataStorage (BioVault) - Sustainable data solutions</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-center text-sky-400">
+                        <i class="fas fa-expand mr-2"></i> Click to expand
+                    </div>
+                </div>
+                
+                <!-- Sticky Note -->
+                <div class="sticky-note card p-6 flex flex-col items-center justify-center text-center">
+                    <i class="fas fa-lightbulb text-3xl text-amber-600 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Fav Quotes</h3>
+                    <p class="mb-4">“You can’t sit around envying other people’s worlds. You have to go out and change your own.” — Your Name</p>
+                    <div class="w-full h-px bg-amber-600 mb-4"></div>
+                    <p class="text-sm">“Even if you’re weak, if you keep fighting, you’ll become strong.” — One Piece</p>
+                </div>
+            </div>
+            
+            <!-- Center Column -->
+            <div class="lg:col-span-6 space-y-8">
+                <!-- Intro Card -->
+                <div class="card p-8 text-center">
+                    <p class="text-sky-400 font-medium mb-2">Hello! 👋</p>
+                    <h1 class="text-4xl font-bold mb-4">
+                        I'm <span class="gradient-text-enhanced">z/Charvi</span>
+                    </h1>
+                    
+                    <div class="flex justify-center mb-6">
+                        <img src="z\profile\profile.jpeg" 
+                             alt="Profile picture of Charvi" 
+                             class="profile-img neon-hover">
+                    </div>
+                    
+                    <p class="text-slate-300 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
+                        I build cool things on the internet—sometimes useful, sometimes just because I can. I like turning ideas into things you can actually click, scroll, and mess around with.
+                    </p>
+                    
+                    <!-- Email Section -->
+                    <div class="mb-8">
+                        <p class="text-sky-400 font-medium mb-2">Get in Touch</p>
+                        <a href="mailto:techxharvi@gmail.com" class="text-xl font-semibold text-slate-300 hover:text-sky-400 transition-colors">
+                            techxharvi@gmail.com
+                        </a>
+                    </div>
+                    
+                    <div class="flex flex-wrap justify-center gap-6">
+                        <a href="https://github.com/xxarvi" target="_blank" class="social-link w-16 h-16 rounded-full flex items-center justify-center text-2xl neon-hover">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        
+                        <!-- Discord with tooltip -->
+                        <div class="tooltip">
+                            <a href="#" class="social-link w-16 h-16 rounded-full flex items-center justify-center text-2xl neon-hover">
+                                <i class="fab fa-discord"></i>
+                            </a>
+                            <span class="tooltiptext">Discord: _xharvi_</span>
+                        </div>
+                        
+                        <a href="https://www.instagram.com/_xharvi_/" target="_blank" class="social-link w-16 h-16 rounded-full flex items-center justify-center text-2xl neon-hover">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        
+                        <!-- Spotify -->
+                        <a href="#https://open.spotify.com/user/31pgokb6nbqockigntzfpvk65kne?si=25539baaf54f4f36" class="social-link w-16 h-16 rounded-full flex items-center justify-center text-2xl neon-hover">
+                            <i class="fab fa-spotify"></i>
+                        </a>
+                        
+                        <!-- Slack -->
+                        <a href="#https://hackclub.slack.com/team/U06BWP8724D" class="social-link w-16 h-16 rounded-full flex items-center justify-center text-2xl neon-hover">
+                            <i class="fab fa-slack"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Projects Section -->
+                <div class="card p-8">
+                    <h2 class="section-heading text-3xl font-bold">Projects</h2>
+                    
+                    <div class="projects-container">
+                        <div class="space-y-8">
+                            <!-- ChefGPT -->
+                            <div class="project-card card p-6 expandable" data-target="project1">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                    <div>
+                                        <h3 class="text-xl font-bold mb-3 glow-text">ChefGPT</h3>
+                                        <p class="text-slate-400 mb-4 leading-relaxed">
+                                            An AI-powered cooking assistant that turns your ingredients into delicious recipes in seconds.
+                                        </p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="tag px-4 py-2 rounded-lg">AI</span>
+                                            <span class="tag px-4 py-2 rounded-lg">Recipe</span>
+                                            <span class="tag px-4 py-2 rounded-lg">Web App</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0 mt-4 md:mt-0">
+                                        <a href="https://xxarvi.github.io/chefgpt/" target="_blank" class="bg-sky-600 hover:bg-sky-700 px-6 py-3 rounded-lg transition neon-hover inline-block">
+                                            View Project
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                            <!-- Cyber-Sec -->
+                            <div class="project-card card p-6 expandable" data-target="project3">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                    <div>
+                                        <h3 class="text-xl font-bold mb-3 glow-text">Cyber-Sec</h3>
+                                        <p class="text-slate-400 mb-4 leading-relaxed">
+                                            An interactive cybersecurity quiz platform to spread awareness on digital safety.
+                                        </p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="tag px-4 py-2 rounded-lg">Security</span>
+                                            <span class="tag px-4 py-2 rounded-lg">Quiz</span>
+                                            <span class="tag px-4 py-2 rounded-lg">Education</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0 mt-4 md:mt-0">
+                                        <a href="https://xxarvi.github.io/cyber-sec/" target="_blank" class="bg-sky-600 hover:bg-sky-700 px-6 py-3 rounded-lg transition neon-hover inline-block">
+                                            View Project
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- LearnAble-AI -->
+                            <div class="project-card card p-6 expandable" data-target="project4">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                    <div>
+                                        <h3 class="text-xl font-bold mb-3 glow-text">LearnAble-AI</h3>
+                                        <p class="text-slate-400 mb-4 leading-relaxed">
+                                            A project that simplifies Artificial Intelligence concepts for beginners.
+                                        </p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="tag px-4 py-2 rounded-lg">AI</span>
+                                            <span class="tag px-4 py-2 rounded-lg">Education</span>
+                                            <span class="tag px-4 py-2 rounded-lg">Learning</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0 mt-4 md:mt-0">
+                                        <a href="https://xxarvi.github.io/LearnAble-AI/" target="_blank" class="bg-sky-600 hover:bg-sky-700 px-6 py-3 rounded-lg transition neon-hover inline-block">
+                                            View Project
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Location & Education (Horizontal) -->
+                <div class="horizontal-info">
+                    <!-- Location Card -->
+                    <div class="card p-6 info-card">
+                        <h3 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-map-marker-alt mr-3 text-sky-400"></i> Location
+                        </h3>
+                        <div class="flex items-center">
+                            <i class="fas fa-globe-asia text-sky-400 text-2xl mr-4"></i>
+                            <div>
+                                <p class="text-lg font-semibold">India</p>
+                                <p class="text-slate-400 text-sm">up,noida</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Education Card -->
+                    <div class="card p-6 info-card">
+                        <h3 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-graduation-cap mr-3 text-sky-400"></i> Education
+                        </h3>
+                        <div class="flex items-center">
+                            <i class="fas fa-school text-sky-400 text-2xl mr-4"></i>
+                            <div>
+                                <p class="text-lg font-semibold">High School(VBPS,noida)</p>
+                                <p class="text-slate-400 text-sm">sophomore</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Average Day Section -->
+                <div class="card p-6 info-card">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-sun mr-3 text-sky-400"></i> Average Day(low quality ah images)
+                    </h3>
+                    
+                    <!-- 5 Images Grid -->
+                    <div class="average-day-container">
+                        <div class="average-day-item" data-caption="donutssssszzzzzzz">
+                            <img src="z\gallery\WhatsApp Image 2025-10-22 at 13.22.06 (4).jpeg" alt="Coding" class="gallery-image">
+                        </div>
+                        <div class="average-day-item" data-caption="libraryz">
+                            <img src="z\gallery\WhatsApp Image 2025-10-22 at 13.22.06 (6).jpeg" alt="library" class="gallery-image">
+                        </div>
+                        <div class="average-day-item" data-caption="competitionss">
+                            <img src="z\gallery\WhatsApp Image 2025-10-22 at 13.22.06 (1).jpeg" alt="compss" class="gallery-image">
+                        </div>
+                        <div class="average-day-item" data-caption="visit to adobe">
+                            <img src="z\gallery\WhatsApp Image 2025-10-22 at 13.22.07.jpeg" alt="low quality picture T^T" class="gallery-image">
+                        </div>
+                        <div class="average-day-item" data-caption="avg view ">
+                            <img src="z\gallery\WhatsApp Image 2025-10-22 at 13.22.07 (2).jpeg" alt="." class="gallery-image">
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Caption Display -->
+                    <div class="gallery-caption mt-4">
+                        <div class="gallery-caption-text" id="galleryCaption">
+                            A glimpse into my daily routine
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="lg:col-span-3 space-y-8">
+                <!-- About Section -->
+                <div class="card p-8">
+                    <h2 class="section-heading text-3xl font-bold text-center mb-8">About Me</h2>
+                    
+                    <div class="mb-10">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-user mr-3 text-sky-400"></i> Bio
+                        </h3>
+                        <p class="text-slate-300 leading-relaxed">
+                            "You don't need to have it all figured out. Keep going—you'll be surprised where you end up". I'm that person who spends hours coding only to realize the issue was a missing semicolon. When I'm not arguing with CSS, I'm busy turning random ideas into websites, apps, or whatever else keeps my brain entertained.
+                        </p>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-code mr-3 text-sky-400"></i> Skills
+                        </h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <span class="tag px-4 py-2 rounded-lg text-center">Frontend</span>
+                            <span class="tag px-4 py-2 rounded-lg text-center">JavaScript</span>
+                            <span class="tag px-4 py-2 rounded-lg text-center">React</span>
+                            <span class="tag px-4 py-2 rounded-lg text-center">Node.js</span>
+                            <span class="tag px-4 py-2 rounded-lg text-center">UI/UX Design</span>
+                            <span class="tag px-4 py-2 rounded-lg text-center">Python</span>
+                            <span class="tag px-4 py-2 rounded-lg text-center">Databases</span>
+                            <span class="tag px-4 py-2 rounded-lg text-center">Problem Solving</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="mt-10 grid grid-cols-2 gap-6">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-sky-400">8+</div>
+                            <div class="text-sm text-slate-400">Projects</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-sky-400">1+</div>
+                            <div class="text-sm text-slate-400">Years Exp</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-sky-400">100%</div>
+                            <div class="text-sm text-slate-400">Satisfaction</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-sky-400">∞</div>
+                            <div class="text-sm text-slate-400">Coffee Cups</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Achievements Section -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-trophy mr-2 text-amber-400"></i> Beyond Coding
+                    </h3>
+                    
+                    <div class="mb-6">
+                        <p class="text-slate-300 mb-4">
+                            But beyond coding, I'm also someone who enjoys:
+                        </p>
+                        
+                        <div class="hobby-item">
+                            <div class="hobby-icon">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                            <div class="hobby-text">
+                                <h4 class="font-semibold">Sketching</h4>
+                                <p class="text-sm text-slate-400"> Creating traditional art</p>
+                            </div>
+                        </div>
+                        
+                        <div class="hobby-item">
+                            <div class="hobby-icon">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <div class="hobby-text">
+                                <h4 class="font-semibold">Music</h4>
+                                <p class="text-sm text-slate-400"> want t learn guitar,music production and discovering new artists</p>
+                            </div>
+                        </div>
+                        
+                        <div class="hobby-item">
+                            <div class="hobby-icon">
+                                <i class="fas fa-basketball-ball"></i>
+                            </div>
+                            <div class="hobby-text">
+                                <h4 class="font-semibold">Sports</h4>
+                                <p class="text-sm text-slate-400"> Basketball, table tennis, and chess ♟️</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Anime Section -->
+                        <div class="anime-item">
+                            <div class="anime-icon">
+                                <i class="fas fa-tv"></i>
+                            </div>
+                            <div class="anime-text">
+                                <h4 class="font-semibold">Anime</h4>
+                                <p class="text-sm text-slate-400"> Watching and discussing anime</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-slate-800 pt-4">
+                        <h4 class="font-semibold mb-3">| ._. | T^T | ;-; | (use these a lot)</h4>
+                        <p class="text-slate-300 italic">“If you can’t find a reason to fight, then you shouldn’t be fighting.” – Naruto</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="mt-16 text-center text-slate-500">
+            <p>- 2025 xharvi. Built with passion and too much coffee.</p>
+        </footer>
+    </div>
+    
+    <!-- Overlay Modals -->
+    <div class="overlay" id="timelineOverlay">
+        <div class="close-btn" id="closeTimeline">
+            <i class="fas fa-times text-xl"></i>
+        </div>
+        <div class="modal">
+            <h2 class="text-3xl font-bold mb-8 text-center text-sky-400">
+                <i class="fas fa-history mr-3"></i>  Timeline
+            </h2>
+            
+            <div class="space-y-10">
+                <div class="timeline-item relative pl-8 border-l-2 border-sky-500">
+                    <div class="text-lg text-sky-400 font-bold">2022 – 2024</div>
+                    <h3 class="text-xl font-bold mb-3">Technovation Journey</h3>
+                    <ul class="list-disc ml-6 space-y-2 text-slate-300">
+                        <li>Participated in Technovation for three consecutive years</li>
+                        <li>Invited to Adobe HQ for the Technovation Celebration</li>
+                        <li>Represented at IIIT Delhi for a Technovation Hackathon</li>
+                        <li>Developed solutions focused on sustainability and education</li>
+                        <li>Collaborated with diverse teams on complex problem-solving</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-item relative pl-8 border-l-2 border-sky-500">
+                    <div class="text-lg text-sky-400 font-bold">2024 – 2025</div>
+                    <h3 class="text-xl font-bold mb-3">Interschool Competitions</h3>
+                    <ul class="list-disc ml-6 space-y-2 text-slate-300">
+                        <li>Competed in web design and problem-solving competitions</li>
+                        <li>2nd Place at Apeejay Interschool Competition</li>
+                        <li>3rd Place at VBPS Tech Challenge</li>
+                        <li>2nd Place at Cambridge Innovation Fair</li>
+                        <li>2nd Place at Genesis Tech Expo</li>
+                        <li>Active member of school's Tech Club, leading innovation projects</li>
+                        <li>Mentored junior students in web development</li>
+                        <li>Member of the schools supreme council</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-item relative pl-8 border-l-2 border-sky-500">
+                    <div class="text-lg text-sky-400 font-bold">2025</div>
+                    <h3 class="text-xl font-bold mb-3">Project Development & Launch</h3>
+                    <ul class="list-disc ml-6 space-y-2 text-slate-300">
+                        <li>Designed and developed impactful web projects</li>
+                        <li>Ecosip: A sustainable solution promoting eco-friendly hydration through smart, reusable tech</li>
+                        <li>ChefGPT: AI-powered cooking assistant with recipe generation</li>
+                        <li>TectonicTrust: An AI-powered app ensuring structural safety through real-time collapse prediction and emergency support.</li>
+                        <li>Portfolioo: Animated portfolio showcasing frontend skills</li>
+                        <li>Cyber-Sec: Interactive cybersecurity awareness platform</li>
+                        <li>LearnAble-AI: AI education platform for beginners</li>
+                        <li>Greening Your Home: Sustainability-focused resource site</li>
+                        <li>To-Do List: Efficient productivity management tool</li>
+                        <li>DataStorage (BioVault): Exploration of sustainable data solutions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Loading screen functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            
+            // Hide loading screen after animation completes
+            setTimeout(() => {
+                loadingScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 1500);
+            }, 4500); // Total animation time: 1.5s arrow + 1.5s Z + 1.5s glitch = 4.5s
+        });
+
+        // Modal functionality
+        const timelineTrigger = document.getElementById('timelineTrigger');
+        const timelineOverlay = document.getElementById('timelineOverlay');
+        const closeTimeline = document.getElementById('closeTimeline');
+        
+        const projectCards = document.querySelectorAll('.expandable[data-target]');
+        
+        // Gallery caption functionality
+        const galleryCaption = document.getElementById('galleryCaption');
+        
+        // Add click events to average day items
+        document.querySelectorAll('.average-day-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const caption = this.getAttribute('data-caption');
+                galleryCaption.textContent = caption;
+                
+                // Add visual feedback
+                document.querySelectorAll('.average-day-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Timeline modal
+        timelineTrigger.addEventListener('click', () => {
+            timelineOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeTimeline.addEventListener('click', () => {
+            timelineOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Project modals
+        projectCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Don't trigger if clicking on a button inside
+                if(e.target.tagName === 'A') return;
+                
+                const target = card.getAttribute('data-target');
+                const overlay = document.getElementById(`${target}Overlay`);
+                if(overlay) {
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+        
+        // Close modals when clicking outside content
+        document.querySelectorAll('.overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+        
+        // Add close functionality to modals
+        document.querySelectorAll('.close-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.overlay').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+        
+        // Animation for project cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            projectCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 300 * index);
+            });
+        });
+    </script>
+</body>
+</html>
